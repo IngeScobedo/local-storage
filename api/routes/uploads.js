@@ -1,7 +1,8 @@
 const { Router } = require('express')
-const addFact = require('../controllers/facts')
+const uploads = require('../controllers/uploads')
+
 const router = Router()
 
-router.post('/', addFact)
+router.post('/', uploads)
 
 module.exports = router

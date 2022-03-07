@@ -1,6 +1,13 @@
 node_modules/
 .env
+<<<<<<< HEAD
 .eslintrc.js
 tailwind.config.js
 postcss.config.js
 uploads/
+=======
+uploads/
+.eslintrc.js
+tailwind.config.js
+postcss.config.js
+>>>>>>> 2ba3aa6a6e2bcb76adb5ef34d6a7c18e6f388a6c

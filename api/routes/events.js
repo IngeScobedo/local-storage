@@ -3,6 +3,6 @@ const eventsHandler = require('../controllers/events')
 
 const router = Router()
 
-router.get('/', eventsHandler)
+router.get('/:username', eventsHandler)
 
 module.exports = router

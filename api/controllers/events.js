@@ -1,34 +1,40 @@
-const File = require("../models/File");
-const { clients } = require("../models/Server");
+
+const { clients } = require('../models/Server')
+const File = require('../models/File')
 
 const eventsHandler = async (request, response) => {
-    const headers = {
-      'Content-Type': 'text/event-stream',
-      'Connection': 'keep-alive',
-      'Cache-Control': 'no-cache'
-    };
-    response.writeHead(200, headers);
-
-    const facts = await File.find({})
-  
-    const data = `data: ${JSON.stringify(facts)}\n\n`;
-  
-    response.write(data);
-  
-    const clientId = Date.now();
-  
-    const newClient = {
-      id: clientId,
-      response
-    };
-  
-    clients.push(newClient);
-    console.log(clients.length)
-  
-    request.on('close', () => {
-      console.log(`${clientId} Connection closed`);
-      clients.splice(clients.indexOf(newClient), 1);
-    });
+  const { username } = request.params
+  const headers = {
+    'Content-Type': 'text/event-stream',
+    Connection: 'keep-alive',
+    'Cache-Control': 'no-cache'
   }
+  response.writeHead(200, headers)
 
-    module.exports = eventsHandler
+  const files = await File.find({ user: username })
+
+  const data = `data: ${JSON.stringify(files)}\n\n`
+  console.log({
+    bestfiles: { data, files },
+    bestfilestwo: username
+  })
+  response.write(data)
+
+  const clientId = Date.now()
+
+  const newClient = {
+    username,
+    id: clientId,
+    response
+  }
+  clients.push(newClient)
+
+  console.log({ alana: clients })
+  request.on('close', () => {
+    console.log(`${username} Connection closed`)
+    clients.splice(clients.indexOf(newClient), 1)
+    console.log({ clients })
+  })
+}
+
+module.exports = eventsHandler

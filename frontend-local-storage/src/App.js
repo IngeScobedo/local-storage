@@ -33,7 +33,7 @@ const App = () => {
   console.log(facts)
 
   return (
-<div>
+<div className="bg-gray-500 font-mono" >
     <div>
       <Upload user={user} />
     </div>

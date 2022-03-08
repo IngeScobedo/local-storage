@@ -3,12 +3,12 @@ import MetamaskButton from './MetamaskButton'
 
 const LoginForm = () => {
   return (
-    <div className=" w-5/6 h-5/6">
+    <div className=" w-5/6 flex flex-col items-center justify-center">
       <div className="w-full flex justify-center">
         <AiFillCloud className="text-9xl" />
       </div>
       <div className="w-full flex flex-col items-center">
-        <div className="w-full text-center mb-6 text-4xl font-bold text-gray-400">
+        <div className="w-full text-center my-5 text-4xl font-bold text-gray-400">
           <h1>Iniciar Sesión</h1>
         </div>
         <MetamaskButton />

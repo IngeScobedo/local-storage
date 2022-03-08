@@ -1,20 +1,18 @@
 import ReactDOM from 'react-dom'
 import React from 'react'
-import App from './App'
 import {
-  BrowserRouter,
-  Routes,
-  Route
+  BrowserRouter
 } from 'react-router-dom'
+import { getLibrary } from './config/web3/index'
+import { Web3ReactProvider } from '@web3-react/core'
 import './index.css'
-import Login from './components/login/Login'
+import AppRouter from './routes/AppRouter'
 
 ReactDOM.render(
-   <BrowserRouter>
-    <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<App />} />
-    </Routes>
-   </BrowserRouter>,
-   document.getElementById('root')
+  <Web3ReactProvider getLibrary={getLibrary}>
+    <BrowserRouter>
+        <AppRouter/>
+    </BrowserRouter>
+  </Web3ReactProvider>,
+  document.getElementById('root')
 )

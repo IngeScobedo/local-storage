@@ -2,7 +2,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
-import App from '../App'
+import App from '../components/App'
 import Login from '../components/login/Login'
 
 const AppRouter = () => {

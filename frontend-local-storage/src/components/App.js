@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Upload from './components/uploadFiles'
+import MetamaskButton from './login/MetamaskButton'
+import Upload from './uploadFiles'
 
 const App = () => {
   const [facts, setFacts] = useState([])
@@ -34,6 +35,7 @@ const App = () => {
 
   return (
 <div className="bg-gray-500 font-mono" >
+    <MetamaskButton />
     <div>
       <Upload user={user} />
     </div>

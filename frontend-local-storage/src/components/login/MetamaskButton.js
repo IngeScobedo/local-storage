@@ -1,15 +1,51 @@
-import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useWeb3React } from '@web3-react/core'
+import { useCallback, useEffect } from 'react'
+import { connector } from '../../config/web3'
 
 const MetamaskButton = () => {
-  const navigate = useNavigate()
+  const { active, activate, account, chainId, deactivate, error } = useWeb3React() // eslint-disable-line
 
-  const handleClick = () => {
-    navigate('/home')
+  const user = useSelector(state => state)  // eslint-disable-line
+
+  const connect = useCallback(() => {
+    activate(connector)
+    console.log('usecallback')
+  }, [activate])
+
+  const disconnect = () => { //eslint-disable-line
+    localStorage.removeItem('previousConnected')
+    deactivate()
   }
 
+  useEffect(() => {
+    if (localStorage.getItem('previousConnected') === 'true') {
+      connect()
+    }
+  }, [connect])
+
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', () => {
+        console.log('Cambio en la chain')
+      })
+
+      window.ethereum.on('accountsChanged', (e) => {
+        console.log('Cambio en la cuenta')
+        console.log(e.length)
+        if (e.length > 0) {
+          localStorage.setItem('previousConnected', 'true')
+        } else {
+          localStorage.removeItem('previousConnected')
+        }
+      })
+    }
+  }, [window.ethereum])
+
   return (
-    <button
-    onClick={handleClick}
+    <>
+      <button
+    onClick={active ? disconnect : connect}
       type="button"
       className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm my-5 px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
     >
@@ -450,8 +486,14 @@ const MetamaskButton = () => {
           </clipPath>{' '}
         </defs>{' '}
       </svg>
-      Connect with MetaMask
+      {
+        active ? 'Disconnect Wallet' : 'Connect With Metamask'
+      }
     </button>
+      {
+        error && <div className="error">{error.message}</div>
+      }
+    </>
   )
 }
 
